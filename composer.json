@@ -1,0 +1,15 @@
+{
+  "name": "einacio/untitled",
+  "description": "Prubas varias",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "einacio",
+      "email": "pablo@loop-sistemas.com.ar"
+    }
+  ],
+  "require": {
+    "leafo/scssphp": "v0.2.0"
+  }
+}
