@@ -1,0 +1,157 @@
+html, body {
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+.magazine {
+	width: 300px;
+	height: 500px;
+	margin: 60px auto 0;
+}
+
+/*para centrado horizontal de absolute con tamaños porcentuales*/
+%center_wrap {
+	left: 50%;
+}
+
+%center {
+	margin-left: -50%;
+	width: 100%;
+	height: 100%;
+}
+
+$size: 60px;
+
+%circle_size {
+	width: $size;
+	height: $size;
+	line-height: $size;
+	text-align: center;
+	color: white;
+}
+
+$main_top: 15px;
+
+%main_position {
+	top: $main_top;
+	margin-bottom: $main_top*2;
+}
+
+.magazine {
+	background: red;
+	overflow: hidden;
+	position: relative;
+
+	.mag_title, .mag_content, .mag_content_wrap, .mag_title_back, .mag_title_main,
+	.mag_title_back_wrap, .mag_title_main_wrap, .mag_title_wrap {
+		position: absolute;
+		display: block;
+		transition: top 1000ms;
+	}
+	.mag_option, .mag_back {
+		display: none;
+	}
+
+	.mag_title_back_wrap, .mag_title_main_wrap, .mag_title_wrap {
+		@extend %center_wrap;
+	}
+
+	.mag_title, .mag_title_back, .mag_title_main {
+		@extend %center;
+		border-radius: 50%;
+		//outline: 1px solid black;
+	}
+
+	.mag_title_main_wrap {
+		@extend %circle_size;
+		top: -100%;
+	}
+	.mag_title_main {
+		background: green;
+	}
+
+	.mag_title_wrap {
+		@extend %circle_size;
+		top: -100%;
+	}
+	.mag_title {
+		background: blue;
+	}
+	.mag_title_back_wrap {
+		width: 20px;
+		height: 20px;
+		left: 25%;
+		top: $main_top + 3px;
+	}
+
+	.mag_content_wrap {
+		@extend %center_wrap;
+		top: 100%;
+		width: 80%;
+	}
+	.mag_content {
+		@extend %center;
+		background: white;
+	}
+	&.modo1 {
+		.mag_back:checked {
+			~ .mag_title_back_wrap {
+				top: -100%;
+			}
+			~ .mag_title_main_wrap {
+				@extend %main_position;
+				position: relative;
+			}
+			& ~ .mag_title_wrap {
+				position: relative;
+				top: 0;
+				margin-top: 5%;
+			}
+		}
+		.mag_option:checked {
+			+ .mag_title_wrap {
+				@extend %main_position;
+				position: relative;
+				+ .mag_content_wrap {
+					top: 0;
+					position: relative;
+				}
+			}
+		}
+	}
+
+	@mixin ntype($n) {
+		&[data-mag-order="#{$n}"] {
+			top: ($main_top *($n+1)) + ($size * $n);
+		}
+	}
+
+	&.modo2 {
+		.mag_back:checked {
+			~ .mag_title_back_wrap {
+				top: -100%;
+			}
+			~ .mag_title_main_wrap {
+				@extend %main_position;
+			}
+			& ~ .mag_title_wrap {
+				@include ntype(1);
+				@include ntype(2);
+				@include ntype(3);
+				@include ntype(4);
+				@include ntype(5);
+			}
+		}
+		.mag_option:checked {
+			+ .mag_title_wrap {
+				@extend %main_position;
+				+ .mag_content_wrap {
+					top: $main_top + ($main_top *2 *(1)) + ($size);
+				}
+			}
+		}
+	}
+
+}
